@@ -39,13 +39,19 @@ jobs:
         echo "Listing files in source_repo/${{ env.FOLDER_PATH }}/"
         ls -R source_repo/${{ env.FOLDER_PATH }}/
         
+        echo "Syncing source to local"
         rsync -a --delete source_repo/${{ env.FOLDER_PATH }}/ target_repo/
         
         echo "Listing files in target_repo/"
         ls -R target_repo/
-        
+
+        echo "Moving into target_repo"
         cd target_repo
+
+        echo "Checking git status of target repo"
         git status
+
+        echo "Committing changes and pushing"
         git config user.name "GitHub Actions"
         git config user.email "github-actions@github.com"
         git add .
