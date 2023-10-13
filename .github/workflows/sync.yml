@@ -36,13 +36,7 @@ jobs:
 
     - name: Synchronize Folder and Push
       run: |
-        echo "Listing files in source_repo/${{ env.FOLDER_PATH }}/"
-        ls -R source_repo/${{ env.FOLDER_PATH }}/
-
-        echo "Listing files in target_repo/${{ env.FOLDER_PATH }}/"
-        ls -R target_repo/${{ env.FOLDER_PATH }}/
-
-        rsync -a --delete source_repo/${{ env.FOLDER_PATH }}/ target_repo/${{ env.FOLDER_PATH }}/
+        rsync -a --delete source_repo/${{ env.FOLDER_PATH }}/ target_repo/
         cd target_repo
         git config user.name "GitHub Actions"
         git config user.email "github-actions@github.com"
