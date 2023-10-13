@@ -30,7 +30,7 @@ jobs:
       uses: actions/checkout@v2
       with:
         repository: ${{ env.TARGET_REPOSITORY }}
-        ref: sparse-checkout
+        ref: main
         token: ${{ secrets.PAT }}
         path: target_repo
 
