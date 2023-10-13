@@ -1,0 +1,49 @@
+name: Sync to Source Repository
+
+on:
+  schedule:
+    - cron: '0 0 * * *' # Runs every day at midnight
+
+env:
+  FOLDER_PATH:          01_Generation
+  SOURCE_REPO:          aws-samples/amazon-bedrock-workshop
+  TARGET_REPOSITORY:    dominodatalab/aihub-aws-text-generation-template
+
+jobs:
+  sync:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout source repository
+      uses: actions/checkout@v2
+      with:
+        repository: ${{ env.SOURCE_REPO }}
+        path: source_repo
+
+    - name: Initialize sparse-checkout
+      run: |
+        cd source_repo
+        git sparse-checkout init --cone
+        git sparse-checkout set ${{ env.FOLDER_PATH }}
+        git checkout main
+
+    - name: Checkout target repository
+      uses: actions/checkout@v2
+      with:
+        repository: ${{ env.TARGET_REPOSITORY }}
+        ref: sparse-checkout
+        token: ${{ secrets.PAT }}
+        path: target_repo
+
+    - name: Synchronize Folder and Push
+      run: |
+        rsync -a --delete source_repo/${{ env.FOLDER_PATH }}/ target_repo/${{ env.FOLDER_PATH }}/
+        cd target_repo
+        git config user.name "GitHub Actions"
+        git config user.email "github-actions@github.com"
+        git add .
+        if git commit -m "Update from source repository"; then
+          git push
+        else
+          echo "No changes to commit."
+        fi
