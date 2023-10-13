@@ -1,8 +1,7 @@
 name: Sync to Source Repository
 
 on:
-  schedule:
-    - cron: '0 0 * * *' # Runs every day at midnight
+  workflow_dispatch:
 
 env:
   FOLDER_PATH:          01_Generation
