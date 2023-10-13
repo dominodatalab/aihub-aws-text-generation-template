@@ -37,13 +37,16 @@ jobs:
     - name: Synchronize Folder and Push
       run: |
         echo "Listing files in source_repo/${{ env.FOLDER_PATH }}/"
-        ls -R source_repo/${{ env.FOLDER_PATH }}/
+        ls -aR source_repo/${{ env.FOLDER_PATH }}/
         
+        echo "Listing files in target_repo/ before rsync"
+        ls -aR target_repo/
+
         echo "Syncing source to local"
         rsync -a --delete source_repo/${{ env.FOLDER_PATH }}/ target_repo/
         
-        echo "Listing files in target_repo/"
-        ls -R target_repo/
+        echo "Listing files in target_repo/ after rsync"
+        ls -aR target_repo/
 
         echo "Moving into target_repo"
         cd target_repo
