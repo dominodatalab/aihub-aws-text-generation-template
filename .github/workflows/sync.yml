@@ -19,18 +19,18 @@ jobs:
         repository: ${{ env.SOURCE_REPO }}
         path: source_repo
 
-    - name: Initialize main
+    - name: Initialize sparse-checkout
       run: |
         cd source_repo
-        git main init --cone
-        git main set ${{ env.FOLDER_PATH }}
+        git sparse-checkout init --cone
+        git sparse-checkout set ${{ env.FOLDER_PATH }}
         git checkout main
 
     - name: Checkout target repository
       uses: actions/checkout@v2
       with:
         repository: ${{ env.TARGET_REPOSITORY }}
-        ref: main
+        ref: sparse-checkout
         token: ${{ secrets.PAT }}
         path: target_repo
 
