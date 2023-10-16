@@ -43,7 +43,7 @@ jobs:
         ls -a target_repo/
 
         echo "Syncing source to local"
-        rsync -a --delete --exclude=.git source_repo/${{ env.FOLDER_PATH }}/ target_repo/
+        rsync -a --delete --exclude=.git --excluse=.github source_repo/${{ env.FOLDER_PATH }}/ target_repo/
         
         echo "Listing files in target_repo/ after rsync"
         ls -a target_repo/
